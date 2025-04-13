@@ -1,0 +1,105 @@
+{
+  "symbol": "BTC/USDT",
+  "timeframe": "15m",
+  "risk_per_trade": 0.02,
+  "stop_loss_pct": 0.03,
+  "take_profit_pct": 0.06,
+  "max_drawdown": 0.15,
+  "indicators": {
+      "rsi": {
+          "enabled": true,
+          "period": 14,
+          "overbought": 70,
+          "oversold": 30
+      },
+      "macd": {
+          "enabled": true,
+          "fast_period": 12,
+          "slow_period": 26,
+          "signal_period": 9
+      },
+      "bollinger_bands": {
+          "enabled": true,
+          "period": 20,
+          "std_dev": 2
+      },
+      "ema": {
+          "enabled": true,
+          "periods": [9, 21, 50, 200]
+      },
+      "stochastic": {
+          "enabled": true,
+          "k_period": 14,
+          "d_period": 3,
+          "overbought": 80,
+          "oversold": 20
+      }
+  },
+  "model": {
+      "sequence_length": 50,
+      "confidence_threshold": 0.65,
+      "retraining_days": 7,
+      "features": [
+          "close", "high", "low", "open", "volume",
+          "RSI", "MACD", "Signal_Line",
+          "sma_50", "sma_200"
+      ]
+  },
+  "trading": {
+      "trading_enabled": true,
+      "simulation_mode": false,
+      "signal_confirmation": true,
+      "minimum_volume": 1000,
+      "max_trades_per_day": 10,
+      "max_open_positions": 3,
+      "position_sizing": "risk_based",
+      "trading_hours": {
+          "enabled": false,
+          "active_hours": [
+              {"start": "00:00", "end": "23:59"}
+          ]
+      },
+      "cooldown_after_loss": {
+          "enabled": true,
+          "minutes": 120
+      }
+  },
+  "notifications": {
+      "email": {
+          "enabled": true,
+          "address": "damianng1112@gmail.com",
+          "send_on_trade": true,
+          "send_on_error": true,
+          "daily_report": true
+      },
+      "telegram": {
+          "enabled": false,
+          "bot_token": "",
+          "chat_id": "",
+          "send_on_trade": true,
+          "send_on_error": true,
+          "send_on_signal": false
+      }
+  },
+  "logging": {
+      "level": "INFO",
+      "save_to_file": true,
+      "console_output": true,
+      "max_file_size_mb": 10,
+      "max_file_count": 5
+  },
+  "backtest": {
+      "start_date": "2023-01-01",
+      "end_date": "now",
+      "initial_balance": 10000,
+      "include_fees": true,
+      "fee_rate": 0.001
+  },
+  "advanced": {
+      "max_api_retry": 3,
+      "retry_delay_seconds": 5,
+      "use_websocket": true,
+      "debug_mode": false,
+      "heartbeat_interval": 60
+  }
+}

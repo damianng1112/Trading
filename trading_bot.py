@@ -10,9 +10,12 @@ import json
 from utils.indicators import calculate_rsi, calculate_macd
 from utils.model_training import train_model
 from utils.data_loader import fetch_historical_data
+from dotenv import load_dotenv
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
+
+load_dotenv()
 
 # Enhanced logging setup
 logging.basicConfig(
@@ -92,8 +95,11 @@ class LSTMTradingBot:
         os.makedirs("data", exist_ok=True)
         
         # Load trading history if exists
-        if os.path.exists("data/trade_history.csv"):
+        if os.path.exists("data/trade_history.csv") and os.path.getsize("data/trade_history.csv") > 0:
             self.trade_history = pd.read_csv("data/trade_history.csv").to_dict('records')
+        else:
+            self.trade_history = []
+            logging.info("No existing trade history found. Starting with empty history.")
     
     def check_model_validity(self):
         """

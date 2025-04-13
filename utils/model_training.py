@@ -10,6 +10,12 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import accuracy_score, classification_report, precision_recall_fscore_support
 import matplotlib.pyplot as plt
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
 def build_lstm_model(input_shape, dropout_rate=0.3):
     """
     Builds an improved LSTM model for binary classification with 
@@ -488,6 +494,20 @@ def perform_walk_forward_optimization(data, feature_columns, sequence_length=50,
         logging.error(f"Error in walk-forward optimization: {e}")
         return None
 
+def train_model(data, sequence_length=50, epochs=100, batch_size=32, validation_split=0.2):
+    """
+    Trains an LSTM model on historical price data.
+    
+    Args:
+        data (pd.DataFrame): Historical price data.
+        sequence_length (int): Sequence length for LSTM input.
+        epochs (int): Number of training epochs.
+        batch_size (int): Batch size for training.
+        validation_split (float): Fraction of data to use for validation.
+        
+    Returns:
+        tuple: (trained model, training history, model statistics)
+    """
     try:
         logging.info("Starting model training...")
         
