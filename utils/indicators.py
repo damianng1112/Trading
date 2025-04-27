@@ -31,14 +31,18 @@ def indicator_wrapper(func):
             column = kwargs.get('column', 'close')
             if column not in df.columns:
                 logging.error(f"Column '{column}' not found in dataframe for {func.__name__}")
+                data[f'{func.__name__}_error'] = True
                 return data  # Return original data in case of error
             
             # Call the indicator function
             result_df = func(df, *args, **kwargs)
             return result_df
         except Exception as e:
+            import traceback
             logging.error(f"Error in {func.__name__}: {e}")
-            return data  # Return original data in case of error
+            logging.debug(traceback.format_exc())
+            data[f'{func.__name__}_error'] = True
+            return data
     return wrapper
 
 @indicator_wrapper
@@ -1742,6 +1746,8 @@ def calculate_all_indicators(data, config=None):
             'displacement': indicator_config.get('ichimoku', {}).get('displacement', 26)
         }),
     ]
+
+    cleanup_intermediate = config.get('cleanup_intermediate', True)
     
     # Apply each indicator function if enabled
     for func, key, params in indicators_pipeline:
@@ -1757,6 +1763,16 @@ def calculate_all_indicators(data, config=None):
     
     # Generate combined signals
     df = generate_combined_signals(df)
+
+    if cleanup_intermediate:
+        intermediate_columns = [
+            'median_price', 'tp_sma', 'tp_md', 'price_change', 
+            'up_sum', 'down_sum', 'up_sum_period', 'down_sum_period',
+            # Add other intermediate columns here
+        ]
+        for col in intermediate_columns:
+            if col in df.columns:
+                df = df.drop(col, axis=1)
     
     return df
 

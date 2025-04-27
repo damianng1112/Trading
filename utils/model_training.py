@@ -559,12 +559,6 @@ def train_model(data, sequence_length=50, epochs=100, batch_size=32, validation_
                 patience=5,
                 restore_best_weights=True
             ),
-            keras.callbacks.ReduceLROnPlateau(
-                monitor='val_loss',
-                factor=0.5,
-                patience=3,
-                min_lr=1e-5
-            ),
             keras.callbacks.ModelCheckpoint(
                 filepath="models/lstm_best_model.keras",
                 monitor='val_loss',

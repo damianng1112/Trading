@@ -6,8 +6,15 @@ from matplotlib.gridspec import GridSpec
 import seaborn as sns
 import datetime
 import os
-import json
+import sys
 import logging
+
+# Get the absolute path of the project root directory
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Add the project root to the Python path
+sys.path.append(project_root)
+
 from utils.indicators import calculate_all_indicators
 from utils.data_loader import fetch_historical_data
 

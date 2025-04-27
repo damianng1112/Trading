@@ -94,12 +94,11 @@ class LSTMTradingBot:
         os.makedirs("models", exist_ok=True)
         os.makedirs("data", exist_ok=True)
         
-        # Load trading history if exists
-        if os.path.exists("data/trade_history.csv") and os.path.getsize("data/trade_history.csv") > 0:
+        try:
             self.trade_history = pd.read_csv("data/trade_history.csv").to_dict('records')
-        else:
-            self.trade_history = []
+        except (pd.errors.EmptyDataError, FileNotFoundError):
             logging.info("No existing trade history found. Starting with empty history.")
+            self.trade_history = []
     
     def check_model_validity(self):
         """
@@ -196,13 +195,24 @@ class LSTMTradingBot:
                 "sma_50", "sma_200", "volatility",
                 "price_change_1", "price_change_5", "price_change_10"
             ]
+
+            # Check for NaN values before dropping
+            nan_counts = df[feature_columns].isna().sum()
+            logging.info(f"NaN counts before dropping: {nan_counts}")
             
-            # Drop rows with NaN values
+            # Instead of dropping all NaN rows, forward-fill missing values
+            df = df.ffill()
+            
+            # If there are still NaNs at the beginning, backward-fill
+            df = df.bfill()
+            
+            # If we still have NaNs after filling, then drop those rows
             df = df.dropna()
             
             if len(df) < 50:
-                logging.error("Not enough data after calculating indicators")
+                logging.error(f"Not enough data after filling NaN values: {len(df)} rows")
                 return None
+
                 
             # Scale features using MinMaxScaler
             features = df[feature_columns].values
@@ -688,6 +698,8 @@ class LSTMTradingBot:
                     time.sleep(60)
                     continue
                 
+                logging.info(f"Fetched {len(data)} rows of historical data")
+
                 prepared_data = self.prepare_data(data)
                 
                 if prepared_data is None:
@@ -695,6 +707,8 @@ class LSTMTradingBot:
                     time.sleep(60)
                     continue
                 
+                logging.info(f"Successfully prepared {len(prepared_data)} rows of data")
+
                 # Get current price
                 current_price = prepared_data["close"].iloc[-1]
                 

@@ -1,0 +1,129 @@
+
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Trading Bot Dashboard</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        margin: 20px;
+                        background-color: #121212;
+                        color: #eee;
+                    }
+                    .container {
+                        max-width: 1200px;
+                        margin: 0 auto;
+                    }
+                    header {
+                        text-align: center;
+                        padding: 20px;
+                        background-color: #1e1e1e;
+                        border-radius: 5px;
+                        margin-bottom: 20px;
+                    }
+                    .metrics {
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: space-between;
+                        margin-bottom: 20px;
+                    }
+                    .metric-card {
+                        background-color: #1e1e1e;
+                        border-radius: 5px;
+                        padding: 15px;
+                        width: 22%;
+                        margin-bottom: 15px;
+                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                    }
+                    .metric-value {
+                        font-size: 24px;
+                        font-weight: bold;
+                        margin-top: 10px;
+                        color: #4CAF50;
+                    }
+                    .negative {
+                        color: #f44336;
+                    }
+                    .chart-container {
+                        background-color: #1e1e1e;
+                        border-radius: 5px;
+                        padding: 20px;
+                        margin-bottom: 20px;
+                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                    }
+                    .chart-container h2 {
+                        margin-top: 0;
+                    }
+                    .chart-img {
+                        max-width: 100%;
+                        height: auto;
+                        display: block;
+                        margin: 0 auto;
+                    }
+                    footer {
+                        text-align: center;
+                        padding: 20px;
+                        background-color: #1e1e1e;
+                        border-radius: 5px;
+                        margin-top: 20px;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <header>
+                        <h1>Trading Bot Dashboard</h1>
+                        <p>Symbol: BTC/USDT | Timeframe: 15m | Generated: 2025-04-27 19:51</p>
+                    </header>
+                    
+                    <div class="metrics">
+                        <div class="metric-card">
+                            <p>Total Trades</p>
+                            <div class="metric-value">0</div>
+                        </div>
+                        <div class="metric-card">
+                            <p>Win Rate</p>
+                            <div class="metric-value">0.00%</div>
+                        </div>
+                        <div class="metric-card">
+                            <p>Average Profit</p>
+                            <div class="metric-value ">0.00%</div>
+                        </div>
+                        <div class="metric-card">
+                            <p>Total Profit</p>
+                            <div class="metric-value ">0.00%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h2>Price Chart</h2>
+                        <img src="price_chart.png" class="chart-img" alt="Price Chart">
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h2>Equity Curve</h2>
+                        <img src="equity_curve.png" class="chart-img" alt="Equity Curve">
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h2>Profit Distribution</h2>
+                        <img src="profit_distribution.png" class="chart-img" alt="Profit Distribution">
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h2>Win/Loss Ratio</h2>
+                        <img src="win_loss_ratio.png" class="chart-img" alt="Win/Loss Ratio">
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h2>Indicator Effectiveness</h2>
+                        <img src="indicator_effectiveness.png" class="chart-img" alt="Indicator Effectiveness">
+                    </div>
+                    
+                    <footer>
+                        <p>&copy; 2025 Trading Bot Dashboard | All rights reserved</p>
+                    </footer>
+                </div>
+            </body>
+            </html>
+            
